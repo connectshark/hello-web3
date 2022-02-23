@@ -10,6 +10,8 @@
 
 快速開發模板架構
 
+參照[CodingStartup的影片](https://youtu.be/Tkm0kHnx1to)
+
 ## 專案已安裝內容
 
 - vite
