@@ -5,7 +5,7 @@
     <h1 class="text-5xl py-5">Hello, Web3!</h1>
     <section class="py-5" v-if="accountAddress">
     <p class="text-5xl py-5">
-      <span class="text-7xl">
+      <span class="text-7xl text-orange-200">
         <i class="bx bxs-hand"></i>
       </span>
       <span>{{ count }}</span>
@@ -13,8 +13,11 @@
       <p>Wallet Address:</p>
       <p>{{ accountAddress.slice(0, 4) }}...{{ accountAddress.slice(-4) }}</p>
     </section>
+    <p class="py-5" v-if="loading">
+      <span class=" text-orange-200 text-6xl"><i class='bx bx-loader-alt bx-spin' ></i></span>
+    </p>
 
-    <p class="py-5">
+    <p class="py-5" v-else>
       <button
       @click="countOnce"
         v-if="accountAddress"
@@ -39,8 +42,10 @@ export default {
   setup() {
     const count = ref(0)
     const accountAddress = ref(null)
+    const loading = ref(true)
 
     const countOnce = async () => {
+      loading.value = true
       try {
         const { ethereum } = window
         if (ethereum) {
@@ -61,6 +66,7 @@ export default {
       } catch (error) {
         console.error(error)
       }
+      loading.value = false
     }
 
     const getCounts = async () => {
@@ -83,9 +89,11 @@ export default {
       } catch (error) {
         console.error(error)
       }
+      loading.value = false
     }
 
     const connectWallet = async () => {
+      loading.value = true
       try {
         const { ethereum } = window
         if (ethereum) {
@@ -105,6 +113,7 @@ export default {
       } catch (error) {
         console.error(error)
       }
+      loading.value = false
     }
 
     const checkIfWalletIsConnected = async () => {
@@ -125,6 +134,7 @@ export default {
       } catch (error) {
         console.error(error)
       }
+      loading.value = false
     }
 
     onBeforeMount(checkIfWalletIsConnected)
@@ -134,7 +144,8 @@ export default {
       count,
       accountAddress,
       connectWallet,
-      countOnce
+      countOnce,
+      loading
     }
   }
 }
